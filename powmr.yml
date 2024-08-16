@@ -1,0 +1,80 @@
+  - platform: total_daily_energy
+    name: "PV energy today"
+    restore: true
+    icon: mdi:counter
+    power_id: powmr.pv_average_power
+    filters:
+      # Multiplication factor from W to kW is 0.001
+      - multiply: 0.001
+    unit_of_measurement: kWh
+
+  - platform: mqtt
+    state_topic: '/iot/node/powmr/log/modbus/208'
+    name: 'Average Inverter Power'
+    unique_id: 'powmr.average_inverter_power'
+    unit_of_measurement: 'W'
+    value_template: '{{ value|int }}'
+    device_class: power
+    state_class: measurement
+
+  - platform: mqtt
+    state_topic: '/iot/node/powmr/log/modbus/209'
+    name: 'Inverter Charging Power'
+    unique_id: 'powmr.inverter_charging_power'
+    unit_of_measurement: 'W'
+    value_template: '{{ value|int }}'
+    device_class: power
+    state_class: measurement
+
+  - platform: mqtt
+    state_topic: '/iot/node/powmr/log/modbus/213'
+    name: 'Output Active Power'
+    unique_id: 'powmr.output_active_power'
+    unit_of_measurement: 'W'
+    value_template: '{{ value|int }}'
+    device_class: power
+    state_class: measurement
+
+  - platform: mqtt
+    state_topic: '/iot/node/powmr/log/modbus/214'
+    name: 'Output Apparent Power'
+    unique_id: 'powmr.output_apparent_power'
+    unit_of_measurement: 'VA'
+    value_template: '{{ value|int }}'
+    device_class: apparent_power
+    state_class: measurement
+
+  - platform: mqtt
+    state_topic: '/iot/node/powmr/log/modbus/217'
+    name: 'Battery Average Power'
+    unique_id: 'powmr.battery_average_power'
+    unit_of_measurement: 'W'
+    value_template: '{{ value|int }}'
+    device_class: power
+    state_class: measurement
+
+  - platform: mqtt
+    state_topic: '/iot/node/powmr/log/modbus/223'
+    name: 'PV Average Power'
+    unique_id: 'powmr.pv_average_power'
+    unit_of_measurement: 'W'
+    value_template: '{{ value|int }}'
+    device_class: power
+    state_class: measurement
+
+  - platform: mqtt
+    state_topic: '/iot/node/powmr/log/modbus/224'
+    name: 'PV Charging Average Power'
+    unique_id: 'powmr.pv_charging_average_power'
+    unit_of_measurement: 'W'
+    value_template: '{{ value|int }}'
+    device_class: power
+    state_class: measurement
+
+  - platform: mqtt
+    state_topic: '/iot/node/powmr/log/modbus/229'
+    name: 'Battery SOC'
+    unique_id: 'powmr.battery_soc'
+    unit_of_measurement: '%'
+    value_template: '{{ value }}'
+    device_class: power

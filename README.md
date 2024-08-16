@@ -2,38 +2,31 @@ https://github.com/leodesigner/powmr_comm
 
 HomeAssistant
 
+Need to install integration https://www.home-assistant.io/integrations/utility_meter/
+
 automations.yaml
 
 ```
-- id: '1723041008766'
-  alias: Powmr pool
-  description: ''
-  trigger:
+alias: 'Poll All Powmr Registers'
+description: 'Polls all Powmr Modbus registers in a single automation.'
+trigger:
   - platform: time_pattern
-    seconds: '00'
-  condition: []
-  action:
+    seconds: '/10'
+action:
   - service: mqtt.publish
     data:
-      topic: /iot/node/powmr/c/modbus_read_single
-      payload: '229'
-  mode: single
+      topic: '/iot/node/powmr/c/modbus_read_range'
+      payload: '208,22'
+mode: single
 ```
 
 configuration.yaml
 
 ```
-sensor: !include solar.yaml
+sensor: !include powmr.yaml
 ```
 
-solar.yaml
+watch -n10 'mosquitto_pub -h 192.168.88.145 -t "/iot/node/powmr/c/modbus_read_range" -m 208,20'
 
-```
-- platform: mqtt
-  state_topic: '/iot/node/powmr/log/modbus/229'
-  name: 'powmr_battery_soc'
-  unique_id: 'powmr.battery_soc'
-  unit_of_measurement: '%'
-  value_template: '{{ value | float | multiply(0.1) | round(2) }}'
-  device_class: power
-```
+KNOWN BUGS:
+simultanious modbus_read_single responses can be mixed
